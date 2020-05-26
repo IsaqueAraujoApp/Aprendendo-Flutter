@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:xlo/blocs/login/field_state.dart';
+import 'package:xlo/blocs/login/login_bloc.dart';
 
 class LoginSreen extends StatefulWidget {
   @override
@@ -6,6 +8,7 @@ class LoginSreen extends StatefulWidget {
 }
 
 class _LoginSreenState extends State<LoginSreen> {
+  LoginBloc _loginBloc = LoginBloc();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,14 +41,21 @@ class _LoginSreenState extends State<LoginSreen> {
                       ),
                     ),
                   ),
-                  StreamBuilder(builder: (context, snapshot) {
-                    return TextField(
-                      keyboardType: TextInputType.emailAddress,
-                      autocorrect: false,
-                      decoration:
-                          InputDecoration(border: const OutlineInputBorder()),
-                    );
-                  }),
+                  StreamBuilder<FieldState>(
+                      stream: _loginBloc.outEmail,
+                      initialData: FieldState(),
+                      builder: (context, snapshot) {
+                        return TextField(
+                          keyboardType: TextInputType.emailAddress,
+                          autocorrect: false,
+                          decoration: InputDecoration(
+                            border: const OutlineInputBorder(),
+                            errorText: snapshot.data.error,
+                          ),
+                          onChanged: _loginBloc.changeEmail,
+                          enabled: snapshot.data.enabled,
+                        );
+                      }),
                   Padding(
                     padding: const EdgeInsets.only(left: 3, bottom: 4, top: 26),
                     child: Row(children: <Widget>[
@@ -68,14 +78,20 @@ class _LoginSreenState extends State<LoginSreen> {
                       ),
                     ]),
                   ),
-                  StreamBuilder(builder: (context, snapshot) {
-                    return TextField(
-                      autocorrect: false,
-                      obscureText: true,
-                      decoration:
-                          InputDecoration(border: const OutlineInputBorder()),
-                    );
-                  }),
+                  StreamBuilder<FieldState>(
+                      stream: _loginBloc.outPassword,
+                      initialData: FieldState(),
+                      builder: (context, snapshot) {
+                        return TextField(
+                          autocorrect: false,
+                          obscureText: true,
+                          decoration: InputDecoration(
+                              border: const OutlineInputBorder(),
+                              errorText: snapshot.data.error),
+                          onChanged: _loginBloc.changePassword,
+                          enabled: snapshot.data.enabled,
+                        );
+                      }),
                 ],
               ))),
     );
