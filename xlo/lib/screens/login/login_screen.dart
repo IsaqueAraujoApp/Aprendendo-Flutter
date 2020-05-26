@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:xlo/blocs/login/field_state.dart';
 import 'package:xlo/blocs/login/login_bloc.dart';
+import 'package:xlo/screens/login/widgets/login_button.dart';
 
 class LoginSreen extends StatefulWidget {
   @override
@@ -92,6 +93,7 @@ class _LoginSreenState extends State<LoginSreen> {
                           enabled: snapshot.data.enabled,
                         );
                       }),
+                  LoginButton(),
                 ],
               ))),
     );
