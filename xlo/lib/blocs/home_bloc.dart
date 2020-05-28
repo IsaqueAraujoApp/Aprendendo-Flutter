@@ -1,7 +1,8 @@
 import 'package:rxdart/rxdart.dart';
 
 class HomeBloc {
-  BehaviorSubject<String> _searchController = BehaviorSubject<String>();
+
+  final BehaviorSubject<String> _searchController = BehaviorSubject<String>();
 
   Stream<String> get outSearch => _searchController.stream;
 
@@ -9,7 +10,8 @@ class HomeBloc {
     _searchController.add(search);
   }
 
-  void dispose() {
+  void dispose(){
     _searchController.close();
   }
+
 }

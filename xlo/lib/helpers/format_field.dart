@@ -1,3 +1,3 @@
 String getSanitizedText(String text){
-  return text.replaceAll( RegExp(r'[^\d]'), '');
+  return text.replaceAll(RegExp(r'[^\d]'), '');
 }

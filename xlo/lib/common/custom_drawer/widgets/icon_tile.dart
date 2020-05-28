@@ -7,15 +7,16 @@ class IconTile extends StatelessWidget {
   final IconData iconData;
   final VoidCallback onTap;
   final bool highlighted;
+
   @override
   Widget build(BuildContext context) {
     return ListTile(
       title: Text(
         label,
         style: TextStyle(
-          fontWeight: FontWeight.w600,
-          letterSpacing: 0.0,
-          color: highlighted ? Colors.blue : Colors.black,
+            fontWeight: FontWeight.w600,
+            letterSpacing: 0.8,
+            color: highlighted ? Colors.blue : Colors.black
         ),
       ),
       leading: Icon(

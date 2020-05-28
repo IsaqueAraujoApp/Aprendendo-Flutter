@@ -11,6 +11,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
   HomeBloc _homeBloc;
 
   @override
@@ -18,18 +19,19 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
 
     final HomeBloc homeBloc = Provider.of<HomeBloc>(context);
-    if (homeBloc != _homeBloc) _homeBloc = homeBloc;
+    if(homeBloc != _homeBloc)
+      _homeBloc = homeBloc;
   }
 
   @override
   Widget build(BuildContext context) {
-    _opernSearch(String currentSearch) async {
-      final String search = await showDialog(
-          context: context,
-          builder: (context) => SearchDialog(currentSearch: currentSearch));
-      if (search != null) {
+
+    _openSearch(String currentSearch) async {
+      final String search = await showDialog(context: context,
+        builder: (context) => SearchDialog(currentSearch: currentSearch),
+      );
+      if(search != null)
         _homeBloc.setSearch(search);
-      }
     }
 
     return Scaffold(
@@ -37,41 +39,45 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         title: StreamBuilder<String>(
           stream: _homeBloc.outSearch,
-          initialData: "",
-          builder: (context, snapshot) {
-            if (snapshot.data.isEmpty)
+          initialData: '',
+          builder: (context, snapshot){
+            if(snapshot.data.isEmpty)
               return Container();
             else
               return GestureDetector(
-                onTap: () => _opernSearch(snapshot.data),
-                child: LayoutBuilder(builder: (context, constraints) {
-                  return Container(
-                    child: Text(snapshot.data),
-                    width: constraints.biggest.width,
-                  );
-                }),
+                onTap: () => _openSearch(snapshot.data),
+                child: LayoutBuilder(
+                  builder: (context, constraints){
+                    return Container(
+                      child: Text(snapshot.data),
+                      width: constraints.biggest.width,
+                    );
+                  },
+                ),
               );
           },
         ),
         actions: <Widget>[
           StreamBuilder<String>(
             stream: _homeBloc.outSearch,
-            initialData: "",
-            builder: (context, snapshot) {
-              if (snapshot.data.isEmpty)
+            initialData: '',
+            builder: (context, snapshot){
+              if(snapshot.data.isEmpty)
                 return IconButton(
-                    icon: Icon(Icons.search),
-                    onPressed: () {
-                      _opernSearch("");
-                    });
+                  icon: Icon(Icons.search),
+                  onPressed: (){
+                    _openSearch("");
+                  },
+                );
               else
                 return IconButton(
-                    icon: Icon(Icons.close),
-                    onPressed: () {
-                      _homeBloc.setSearch("");
-                    });
+                  icon: Icon(Icons.close),
+                  onPressed: (){
+                    _homeBloc.setSearch('');
+                  },
+                );
             },
-          )
+          ),
         ],
       ),
       drawer: CustomDrawer(),
