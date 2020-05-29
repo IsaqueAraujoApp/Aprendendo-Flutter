@@ -12,7 +12,6 @@ class BaseScreen extends StatefulWidget {
 }
 
 class _BaseScreenState extends State<BaseScreen> {
-
   final PageController _pageController = PageController();
 
   DrawerBloc _drawerBloc;
@@ -23,12 +22,14 @@ class _BaseScreenState extends State<BaseScreen> {
     super.didChangeDependencies();
 
     final DrawerBloc drawerBloc = Provider.of<DrawerBloc>(context);
-    if(drawerBloc != _drawerBloc){
+    if (drawerBloc != _drawerBloc) {
       _drawerBloc = drawerBloc;
 
       _drawerSubscription?.cancel();
-      _drawerSubscription = _drawerBloc.outPage.listen((page){
-        _pageController.jumpToPage(page);
+      _drawerSubscription = _drawerBloc.outPage.listen((page) {
+        try {
+          _pageController.jumpToPage(page);
+        } catch (e) {}
       });
     }
   }
