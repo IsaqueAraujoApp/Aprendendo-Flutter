@@ -1,9 +1,15 @@
 import 'package:flutter/material.dart';
 
 class PasswordField extends StatelessWidget {
+
+  PasswordField({this.onSaved});
+
+  final FormFieldSetter<String> onSaved;
+
   @override
   Widget build(BuildContext context) {
-    Widget _buildBar(int n, String pass) {
+
+    Widget _buildBar(int n, String pass){
       final int level = _calcScore(pass);
       return Expanded(
         child: Container(
@@ -11,7 +17,7 @@ class PasswordField extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(5)),
             color: n <= level ? _getColor(level) : Colors.transparent,
-            border: n > level ? Border.all(color: Colors.grey) : null,
+            border: n > level ? Border.all(color: Colors.grey) : null
           ),
         ),
       );
@@ -19,14 +25,23 @@ class PasswordField extends StatelessWidget {
 
     return FormField<String>(
       initialValue: '',
-      builder: (state) {
+      onSaved: onSaved,
+      validator: (text){
+        if(text.isEmpty || _calcScore(text) < 2)
+          return 'Senha inválida';
+        return null;
+      },
+      autovalidate: true,
+      builder: (state){
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             TextField(
               decoration: const InputDecoration(border: OutlineInputBorder()),
               obscureText: true,
               onChanged: state.didChange,
             ),
+            if(state.value.isNotEmpty)
             Container(
               margin: const EdgeInsets.only(top: 6),
               height: 8,
@@ -35,21 +50,35 @@ class PasswordField extends StatelessWidget {
                   _buildBar(0, state.value),
                   _buildBar(1, state.value),
                   _buildBar(2, state.value),
-                  _buildBar(3, state.value)
+                  _buildBar(3, state.value),
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.only(top: 6, left: 10),
+              child: state.value.isNotEmpty || state.hasError ? Text(
+                state.value.isNotEmpty ? _getText(_calcScore(state.value)) : state.errorText,
+                textAlign: TextAlign.start,
+                style: TextStyle(
+                  color: _getColor(_calcScore(state.value)),
+                  fontSize: 12,
+                ),
+              ) : Container(),
+            )
           ],
         );
       },
     );
   }
 
-  int _calcScore(String text) {
+  int _calcScore(String text){
     int score = 0;
-    if (text.length > 0) score += 1;
-    if (text.contains(RegExp(r'[0-9]'))) score += 1;
-    if (text.contains(RegExp(r'[A-Z]'))) score += 1;
+    if(text.length > 8)
+      score += 1;
+    if(text.contains(RegExp(r'[0-9]')))
+      score += 1;
+    if(text.contains(RegExp(r'[A-Z]')))
+      score += 1;
     return score;
   }
 
@@ -65,6 +94,21 @@ class PasswordField extends StatelessWidget {
         return Colors.green;
       default:
         return Colors.red;
+    }
+  }
+
+  String _getText(int level) {
+    switch (level) {
+      case 0:
+        return 'Senha muito fraca';
+      case 1:
+        return 'Senha razoavelmente fraca';
+      case 2:
+        return 'Senha razoavelmente forte';
+      case 3:
+        return 'Senha forte';
+      default:
+        return '';
     }
   }
 }
