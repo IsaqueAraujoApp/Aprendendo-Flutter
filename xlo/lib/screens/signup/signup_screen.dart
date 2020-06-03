@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:xlo/blocs/login/login_bloc_state.dart';
 import 'package:xlo/blocs/singup_bloc.dart';
 import 'package:xlo/screens/signup/widgets/field_title.dart';
 import 'package:xlo/screens/signup/widgets/password_field.dart';
