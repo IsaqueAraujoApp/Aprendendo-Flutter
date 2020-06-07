@@ -17,11 +17,38 @@ class _CreateScreenState extends State<CreateScreen> {
         title: Text("Inseir Anúncio"),
       ),
       drawer: CustomDrawer(),
-      body: Form(key: _formkey, child: ListView(
-        children: <Widget>[
-          ImagesField(),
-        ],
-      ),),
+      body: Form(
+        key: _formkey,
+        child: ListView(
+          children: <Widget>[
+            ImagesField(
+              onSaved: (images) {
+                print(images);
+              },
+              initialValue: [],
+            ),
+            Container(
+              height: 50,
+              child: RaisedButton(
+                color: Colors.pink,
+                child: Text(
+                  'Enviar',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                onPressed: () {
+                  if (_formkey.currentState.validate()) {
+                    _formkey.currentState.save();
+                  }
+                },
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
