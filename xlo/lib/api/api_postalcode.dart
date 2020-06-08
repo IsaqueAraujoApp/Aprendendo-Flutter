@@ -23,8 +23,8 @@ Future<ApiResponse> getAdressFromAPI(String postalCode) async {
       postalCode: response.data['cep'],
       federativeUnit: response.data['uf'],
     );
-
-    print(address);
+    return ApiResponse.success(result: address);
+    //print(address);
   } on DioError catch (e) {
     return ApiResponse.error(
       error: ApiError(code: -1, message: 'Falha ao contactar VIACEP'),
