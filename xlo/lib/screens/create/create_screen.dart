@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:xlo/common/cep_field.dart';
 import 'package:xlo/common/custom_drawer/custom_drawer.dart';
+import 'package:xlo/screens/create/widgets/hide_phone_widget.dart';
 import 'package:xlo/screens/create/widgets/images_field.dart';
 
 class CreateScreen extends StatefulWidget {
@@ -65,19 +66,18 @@ class _CreateScreenState extends State<CreateScreen> {
               onSaved: (d) {},
             ),
             CepField(
-              decoration: InputDecoration(
-                labelText: 'CEP *',
-                labelStyle: TextStyle(
-                  fontWeight: FontWeight.w800,
-                  color: Colors.grey,
-                  fontSize: 18,
+                decoration: InputDecoration(
+                  labelText: 'CEP *',
+                  labelStyle: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    color: Colors.grey,
+                    fontSize: 18,
+                  ),
+                  contentPadding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
                 ),
-                contentPadding: const EdgeInsets.fromLTRB(16, 10, 12, 10),
-              ),
-              onSaved: (c){
-                print(c);
-              }
-            ),
+                onSaved: (c) {
+                  print(c);
+                }),
             TextFormField(
               decoration: InputDecoration(
                 labelText: 'Preço *',
@@ -100,11 +100,15 @@ class _CreateScreenState extends State<CreateScreen> {
               ],
               validator: (text) {
                 if (text.trim().isEmpty) return 'Campo obrigatório';
-                if (double.tryParse(text) == null)
+                if (int.tryParse(getSanitizedText(text)) == null)
                   return 'Utilize valores válidos';
                 return null;
               },
               onSaved: (price) {},
+            ),
+            HidePhoneWidget(
+              onSaved: (h) {},
+              initialValue: false,
             ),
             Container(
               height: 50,
@@ -129,5 +133,9 @@ class _CreateScreenState extends State<CreateScreen> {
         ),
       ),
     );
+  }
+
+  String getSanitizedText(String text) {
+    return text.replaceAll(r'[^\d]', '');
   }
 }
