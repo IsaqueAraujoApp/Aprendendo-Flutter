@@ -29,6 +29,7 @@ class _CepFieldState extends State<CepField> {
           onSaved: (t) {
             onSaved(Address());
           },
+          onChanged: (cep){},
         ),
       ],
     );
