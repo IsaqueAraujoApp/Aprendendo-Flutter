@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:xlo/blocs/home_bloc.dart';
 import 'package:xlo/common/custom_drawer/custom_drawer.dart';
+import 'package:xlo/models/ad.dart';
 import 'package:xlo/screens/home/widgets/search_dialog.dart';
 import 'package:xlo/screens/home/widgets/top_bar.dart';
 
@@ -11,7 +12,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   HomeBloc _homeBloc;
 
   @override
@@ -19,19 +19,17 @@ class _HomeScreenState extends State<HomeScreen> {
     super.didChangeDependencies();
 
     final HomeBloc homeBloc = Provider.of<HomeBloc>(context);
-    if(homeBloc != _homeBloc)
-      _homeBloc = homeBloc;
+    if (homeBloc != _homeBloc) _homeBloc = homeBloc;
   }
 
   @override
   Widget build(BuildContext context) {
-
     _openSearch(String currentSearch) async {
-      final String search = await showDialog(context: context,
+      final String search = await showDialog(
+        context: context,
         builder: (context) => SearchDialog(currentSearch: currentSearch),
       );
-      if(search != null)
-        _homeBloc.setSearch(search);
+      if (search != null) _homeBloc.setSearch(search);
     }
 
     return Scaffold(
@@ -40,14 +38,14 @@ class _HomeScreenState extends State<HomeScreen> {
         title: StreamBuilder<String>(
           stream: _homeBloc.outSearch,
           initialData: '',
-          builder: (context, snapshot){
-            if(snapshot.data.isEmpty)
+          builder: (context, snapshot) {
+            if (snapshot.data.isEmpty)
               return Container();
             else
               return GestureDetector(
                 onTap: () => _openSearch(snapshot.data),
                 child: LayoutBuilder(
-                  builder: (context, constraints){
+                  builder: (context, constraints) {
                     return Container(
                       child: Text(snapshot.data),
                       width: constraints.biggest.width,
@@ -61,18 +59,18 @@ class _HomeScreenState extends State<HomeScreen> {
           StreamBuilder<String>(
             stream: _homeBloc.outSearch,
             initialData: '',
-            builder: (context, snapshot){
-              if(snapshot.data.isEmpty)
+            builder: (context, snapshot) {
+              if (snapshot.data.isEmpty)
                 return IconButton(
                   icon: Icon(Icons.search),
-                  onPressed: (){
+                  onPressed: () {
                     _openSearch("");
                   },
                 );
               else
                 return IconButton(
                   icon: Icon(Icons.close),
-                  onPressed: (){
+                  onPressed: () {
                     _homeBloc.setSearch('');
                   },
                 );
@@ -84,6 +82,23 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: <Widget>[
           TopBar(),
+          Expanded(
+            child: StreamBuilder<List<Ad>>(
+              stream: _homeBloc.outAd,
+              builder: (context, snapshot) {
+                return ListView.builder(
+                  itemCount: snapshot.data.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        snapshot.data[index].title,
+                      ),
+                    );
+                  },
+                );
+              },
+            ),
+          ),
         ],
       ),
     );
