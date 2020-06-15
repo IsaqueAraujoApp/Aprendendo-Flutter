@@ -1,6 +1,9 @@
 import 'package:brasil_fields/brasil_fields.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:provider/provider.dart';
+import 'package:xlo/blocs/create_bloc.dart';
+import 'package:xlo/blocs/drawer_bloc.dart';
 import 'package:xlo/common/cep_field.dart';
 import 'package:xlo/common/custom_drawer/custom_drawer.dart';
 import 'package:xlo/models/ad.dart';
@@ -15,7 +18,22 @@ class CreateScreen extends StatefulWidget {
 class _CreateScreenState extends State<CreateScreen> {
   final GlobalKey<FormState> _formkey = GlobalKey<FormState>();
 
+  CreateBloc _createBloc;
+
   Ad ad = Ad();
+
+  @override
+  void initState() {
+    super.initState();
+    _createBloc = CreateBloc();
+  }
+
+  @override
+  void dispose() {
+    _createBloc?.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,10 +151,15 @@ class _CreateScreenState extends State<CreateScreen> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-                onPressed: () {
+                onPressed: () async {
                   if (_formkey.currentState.validate()) {
                     _formkey.currentState.save();
-                    print(ad);
+
+                    final bool success = await _createBloc.saveAd(ad);
+
+                    if (success) {
+                      Provider.of<DrawerBloc>(context).setPage(0);
+                    }
                   }
                 },
               ),
