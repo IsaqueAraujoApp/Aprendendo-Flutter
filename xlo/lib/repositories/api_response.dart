@@ -1,7 +1,7 @@
-import 'package:xlo/repositories/api_error.dart';
+import 'api_error.dart';
 
-class ApiResponse{
-  
+class ApiResponse {
+
   ApiResponse.success({this.result}){
     success = true;
   }
@@ -9,8 +9,9 @@ class ApiResponse{
   ApiResponse.error({this.error}){
     success = false;
   }
-  
+
   bool success;
   dynamic result;
   ApiError error;
+
 }

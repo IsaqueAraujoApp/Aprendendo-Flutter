@@ -1,15 +1,17 @@
-import 'package:xlo/models/adress.dart';
+import 'package:xlo/models/address.dart';
 
 class Ad {
+
   List<dynamic> images;
   String title;
   String description;
-  Address adress;
+  Address address;
   num price;
   bool hidePhone;
 
   @override
-  String toString(){
-    return '$images, $title, $description, $adress, $price, $hidePhone';
+  String toString() {
+    return '$images, $title, $description, $address, $price, $hidePhone';
   }
+
 }

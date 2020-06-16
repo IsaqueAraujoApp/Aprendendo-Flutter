@@ -1,11 +1,11 @@
 class Address {
-  Address({
-    this.place,
+
+  Address({this.place,
     this.district,
     this.city,
     this.postalCode,
-    this.federativeUnit,
-  });
+    this.federativeUnit,});
+
   String place;
   String district;
   String city;
@@ -16,4 +16,5 @@ class Address {
   String toString() {
     return '$place, $district, $city, $postalCode, $federativeUnit';
   }
+
 }
