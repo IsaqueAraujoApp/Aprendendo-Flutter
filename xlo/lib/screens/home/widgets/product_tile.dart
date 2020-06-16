@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:xlo/models/ad.dart';
+import 'package:xlo/screens/product/product_screen.dart';
 
 class ProductTile extends StatelessWidget {
-
   ProductTile(this.ad);
 
   final Ad ad;
@@ -11,8 +11,9 @@ class ProductTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
-
+      onTap: () {
+        Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => ProductScreen(ad)));
       },
       child: Container(
         height: 135,
@@ -23,7 +24,10 @@ class ProductTile extends StatelessWidget {
               SizedBox(
                 height: 135,
                 width: 127,
-                child: Image.file(ad.images[0], fit: BoxFit.cover,),
+                child: Image.file(
+                  ad.images[0],
+                  fit: BoxFit.cover,
+                ),
               ),
               Expanded(
                 child: Padding(
@@ -42,9 +46,7 @@ class ProductTile extends StatelessWidget {
                       Text(
                         'R\$${numToString(ad.price)}',
                         style: TextStyle(
-                          fontSize: 19,
-                          fontWeight: FontWeight.w700
-                        ),
+                            fontSize: 19, fontWeight: FontWeight.w700),
                       ),
                       Text(
                         '${ad.address.district}, ${ad.address.city}',
@@ -65,7 +67,7 @@ class ProductTile extends StatelessWidget {
   }
 
   String numToString(num number) {
-    return NumberFormat('###,##0.00', 'pt-br').
-      format(double.parse(number.toStringAsFixed(2)));
+    return NumberFormat('###,##0.00', 'pt-br')
+        .format(double.parse(number.toStringAsFixed(2)));
   }
 }

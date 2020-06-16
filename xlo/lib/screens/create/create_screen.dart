@@ -2,7 +2,6 @@ import 'package:brasil_fields/formatter/real_input_formatter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
-import 'package:xlo/api/api_postalcode.dart';
 import 'package:xlo/blocs/create_bloc.dart';
 import 'package:xlo/blocs/drawer_bloc.dart';
 import 'package:xlo/blocs/home_bloc.dart';
