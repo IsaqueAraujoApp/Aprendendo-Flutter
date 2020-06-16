@@ -1,6 +1,7 @@
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:flutter/material.dart';
 import 'package:xlo/models/ad.dart';
+import 'package:xlo/screens/product/widgets/main_panel.dart';
 
 class ProductScreen extends StatelessWidget {
   ProductScreen(this.ad);
@@ -27,6 +28,21 @@ class ProductScreen extends StatelessWidget {
             autoplay: false,
           ),
         ),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              MainPanel(ad),
+              /*Divider(),
+              DescriptionPanel(ad),
+              Divider(),
+              LocationPanel(),
+              Divider(),
+              UserPanel(ad)*/
+            ]
+          ),
+          ),
       ]),
     );
   }
