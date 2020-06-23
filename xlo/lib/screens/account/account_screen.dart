@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:xlo/common/custom_drawer/custom_drawer.dart';
+import 'package:xlo/screens/editaccount/edit_account_screen.dart';
 
 class AccountScreen extends StatelessWidget {
   @override
@@ -12,7 +13,11 @@ class AccountScreen extends StatelessWidget {
           FlatButton(
             child: const Text('EDITAR'),
             textColor: Colors.white,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => EditAccountScreen())
+              );
+            },
           ),
         ],
       ),

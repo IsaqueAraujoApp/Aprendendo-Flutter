@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:xlo/models/ad.dart';
-import 'package:xlo/models/user.dart';
 
 class UserPanel extends StatelessWidget {
   const UserPanel(this.ad);
